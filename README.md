@@ -1,6 +1,14 @@
 # HL7 translation exercise
 
-HL7 is a standard used to share patient data between hospital systems. In this exercise, you will be required to extract data from raw messages and produce normalized output objects that could be consumed by downstream systems.
+In this exercise, you'll be required to extract data from raw HL7 messages and produce normalized output objects that could be consumed by downstream systems.
+
+HL7 is a standard used to share patient data between hospital systems. Each HL7 message consists of multiple segments, with carriage return characters (`\r`) used as a delimiter. Each segment is further divided using pipe characters (`|`) to separate fields, with the first field containing an identifier for the type of segment. Particular data elements can be identified using the position of a field within a type of segment. It is also possible to subdivide fields using a caret character (`^`).
+
+The `messages.ldjson` input file contains 10 JSON-encoded message objects, each on its own line. Message objects contain metadata as well as the raw message text, which is identified by the `text` key. Process the text for every message to extract each observation and append an event to your output with the required attributes.
+
+Each output line corresponds to an `OBX` line in the original message and describes an individual observation of the patient. The `OBR` line in the message contains data pertaining to all subsequent `OBX` lines, so some fields will be repeated in each output line. The patient can be identified using a field in the `PID` line.
+
+Note that message lines displayed in this document are separated by newline characters (`\n`) to make things easier to read, while segments in the real messages are separated by carriage return characters (`\r`).
 
 
 ## The problem
@@ -8,16 +16,16 @@ HL7 is a standard used to share patient data between hospital systems. In this e
 Given a JSON-encoded object containing this message:
 
 <pre>MSH|^~\\&|HL7|VITALS|EXAMPLE HOSPITAL||201701120900||ORU^R01|53b3cd1ea11b448ebf99656f637e54e3|P|2.3||||||UNICODE UTF-8
-PID|||<strong style="color:#f00;font-weight:normal">40724907</strong>^^^A^MR||
+PID|||<strong>40724907</strong>^^^A^MR||
 PV1||E|STIC^STIC^01^^^^EXAMPLE HOSPITAL
-OBR|1||||||<strong style="color:#f00;font-weight:normal">20170112000800</strong>
-OBX|1|ST|^<strong style="color:#f00;font-weight:normal">SBP</strong>^^8480-6^Systolic blood pressure^LN||<strong style="color:#f00;font-weight:normal">154</strong>|<strong style="color:#f00;font-weight:normal">mm(hg)</strong>||R
-OBX|2|ST|^<strong style="color:#f00;font-weight:normal">HR</strong>^^8886-4^Heart rate^LN||<strong style="color:#f00;font-weight:normal">99</strong>|<strong style="color:#f00;font-weight:normal">beats/min</strong>||R
-OBX|3||^<strong style="color:#f00;font-weight:normal">MBP</strong>^^8478-0^Mean blood pressure^LN||<strong style="color:#f00;font-weight:normal">120</strong>|<strong style="color:#f00;font-weight:normal">mm(hg)</strong>||R
-OBX|4|ST|^<strong style="color:#f00;font-weight:normal">CVP3</strong>^^8591-0^Central venous pressure (CVP) Mean^LN||<strong style="color:#f00;font-weight:normal">13</strong>|<strong style="color:#f00;font-weight:normal">mm(hg)</strong>||R
-OBX|5|ST|^<strong style="color:#f00;font-weight:normal">DBP</strong>^^8462-4^Diastolic blood pressure^LN||<strong style="color:#f00;font-weight:normal">103</strong>|<strong style="color:#f00;font-weight:normal">mm(hg)</strong>||R
-OBX|6|ST|^<strong style="color:#f00;font-weight:normal">SPO2-%</strong>^^20081-6^Pulse oximetry site^LN||<strong style="color:#f00;font-weight:normal">96</strong>|<strong style="color:#f00;font-weight:normal">%</strong>||R
-OBX|7|ST|^<strong style="color:#f00;font-weight:normal">RR</strong>^^9279-1^Respiratory rate^LN||<strong style="color:#f00;font-weight:normal">16</strong>|<strong style="color:#f00;font-weight:normal">breaths/min</strong>||R</pre>
+OBR|1||||||<strong>20170112000800</strong>
+OBX|1|ST|^<strong>SBP</strong>^^8480-6^Systolic blood pressure^LN||<strong>154</strong>|<strong>mm(hg)</strong>||R
+OBX|2|ST|^<strong>HR</strong>^^8886-4^Heart rate^LN||<strong>99</strong>|<strong>beats/min</strong>||R
+OBX|3||^<strong>MBP</strong>^^8478-0^Mean blood pressure^LN||<strong>120</strong>|<strong>mm(hg)</strong>||R
+OBX|4|ST|^<strong>CVP3</strong>^^8591-0^Central venous pressure (CVP) Mean^LN||<strong>13</strong>|<strong>mm(hg)</strong>||R
+OBX|5|ST|^<strong>DBP</strong>^^8462-4^Diastolic blood pressure^LN||<strong>103</strong>|<strong>mm(hg)</strong>||R
+OBX|6|ST|^<strong>SPO2-%</strong>^^20081-6^Pulse oximetry site^LN||<strong>96</strong>|<strong>%</strong>||R
+OBX|7|ST|^<strong>RR</strong>^^9279-1^Respiratory rate^LN||<strong>16</strong>|<strong>breaths/min</strong>||R</pre>
 
 Produce this output:
 
@@ -29,16 +37,10 @@ Produce this output:
     {"event":"SPO2-%","patient":"40724907","time":"2017-01-12T00:08:00Z","unit":"%","value":96}
     {"event":"RR","patient":"40724907","time":"2017-01-12T00:08:00Z","unit":"breaths/min","value":16}
 
-The `messages.ldjson` input file contains 10 JSON-encoded message objects, each on its own line. Extract each observation in every message and append an event to your output with the required attributes. The raw message text is available as the `text` key in the message object.
-
-Each output line corresponds to an `OBX` line in the original message and describes an individual observation of the patient. The `OBR` line in the message contains data pertaining to all subsequent `OBX` lines, so some fields will be repeated in each output line. The patient can be identified using a field in the `PID` line.
-
 
 ## The solution
 
 Each JSON-encoded output object must be written to a single line, with each line separated by a newline (`\n`) character. It's acceptable to include blank lines in your output, as well as comment lines with a leading `#` character.
-
-Note that message lines displayed in this document are separated by newlines (`\n`), while lines in the real messages are separated by carriage returns (`\r`).
 
 For the purposes of this exercise, it's safe to make the following assumptions:
 
