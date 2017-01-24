@@ -28,10 +28,10 @@ Note that message lines displayed in this document are separated by newline char
 
 ## The problem
 
-Something about markdown:
-I believe the 'pre' tag has to be separated from the block of HTML code by a line, otherwise '**' can be used for inline emphasis
-I would dispense with the emphasis altogether as it differs from the messages contained in the file you provide, and would be something that is asked about over and over again
-Otherwise I would say "emphasis added to the important bits"
+>Something about markdown:
+>I believe the 'pre' tag has to be separated from the block of HTML code by a line, otherwise '**' can be used for inline emphasis
+>I would dispense with the emphasis altogether as it differs from the messages contained in the file you provide, and would be something that is asked about over and over again
+>Otherwise I would say "emphasis added to the important bits"
 
 Given a JSON-encoded object containing this message:
 
