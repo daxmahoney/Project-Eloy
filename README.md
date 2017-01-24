@@ -1,4 +1,17 @@
-# HL7 translation exercise
+Thank you for the opportunity to write my first Python program. The solution I have 
+provided uses absolute positioning to return the output objects you desired. 
+
+To run my solution you should open the terminal window on your UNIX based computer and type the following commands. I will assume you are able to navigate to the location where you downloaded the code I submitted.
+
+1. '$pip3 install json'
+2. navigate to the folder where you cloned the repository I have provided
+3. '$python refactor.py'
+4. '$cat testfile.txt'
+
+
+
+
+***# HL7 translation exercise
 
 In this exercise, you'll be required to extract data from raw HL7 messages and produce normalized output objects that could be consumed by downstream systems.
 
@@ -13,19 +26,28 @@ Note that message lines displayed in this document are separated by newline char
 
 ## The problem
 
+Something about markdown:
+I believe the 'pre' tag has to be separated from the block of HTML code by a line, otherwise '**' can be used for inline emphasis
+I would dispense with the emphasis altogether as it differs from the messages contained in the file you provide, and would be something that is asked about over and over again
+Otherwise I would say "emphasis added to the important bits"
+
 Given a JSON-encoded object containing this message:
 
-<pre>MSH|^~\\&|HL7|VITALS|EXAMPLE HOSPITAL||201701120900||ORU^R01|53b3cd1ea11b448ebf99656f637e54e3|P|2.3||||||UNICODE UTF-8
-PID|||<strong>40724907</strong>^^^A^MR||
+<pre>
+
+MSH|^~\\&|HL7|VITALS|EXAMPLE HOSPITAL||201701120900||ORU^R01|53b3cd1ea11b448ebf99656f637e54e3|P|2.3||||||UNICODE UTF-8
+PID|||**40724907**^^^A^MR||
 PV1||E|STIC^STIC^01^^^^EXAMPLE HOSPITAL
-OBR|1||||||<strong>20170112000800</strong>
-OBX|1|ST|^<strong>SBP</strong>^^8480-6^Systolic blood pressure^LN||<strong>154</strong>|<strong>mm(hg)</strong>||R
-OBX|2|ST|^<strong>HR</strong>^^8886-4^Heart rate^LN||<strong>99</strong>|<strong>beats/min</strong>||R
-OBX|3||^<strong>MBP</strong>^^8478-0^Mean blood pressure^LN||<strong>120</strong>|<strong>mm(hg)</strong>||R
-OBX|4|ST|^<strong>CVP3</strong>^^8591-0^Central venous pressure (CVP) Mean^LN||<strong>13</strong>|<strong>mm(hg)</strong>||R
-OBX|5|ST|^<strong>DBP</strong>^^8462-4^Diastolic blood pressure^LN||<strong>103</strong>|<strong>mm(hg)</strong>||R
-OBX|6|ST|^<strong>SPO2-%</strong>^^20081-6^Pulse oximetry site^LN||<strong>96</strong>|<strong>%</strong>||R
-OBX|7|ST|^<strong>RR</strong>^^9279-1^Respiratory rate^LN||<strong>16</strong>|<strong>breaths/min</strong>||R</pre>
+OBR|1||||||**20170112000800**
+OBX|1|ST|^**SBP**^^8480-6^Systolic blood pressure^LN||**154**|**mm(hg)**||R
+OBX|2|ST|^**HR**^^8886-4^Heart rate^LN||**99**|**beats/min**||R
+OBX|3||^**MBP**^^8478-0^Mean blood pressure^LN||**120**|**mm(hg)**||R
+OBX|4|ST|^**CVP3**^^8591-0^Central venous pressure (CVP) Mean^LN||**13**|**mm(hg)**||R
+OBX|5|ST|^**DBP**^^8462-4^Diastolic blood pressure^LN||**103**|**mm(hg)**||R
+OBX|6|ST|^**SPO2-%**^^20081-6^Pulse oximetry site^LN||**96**|**%**||R
+OBX|7|ST|^**RR**^^9279-1^Respiratory rate^LN||**16**|**breaths/min**||R
+
+</pre>
 
 Produce this output:
 
