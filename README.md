@@ -11,7 +11,9 @@ To run my solution you should open the terminal window on your UNIX based comput
 
 
 
-***# HL7 translation exercise
+***
+
+# HL7 translation exercise
 
 In this exercise, you'll be required to extract data from raw HL7 messages and produce normalized output objects that could be consumed by downstream systems.
 
