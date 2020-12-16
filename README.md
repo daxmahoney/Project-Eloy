@@ -1,4 +1,4 @@
-Thank you for the opportunity to write my first Python program. The solution I have 
+The solution I have 
 provided uses absolute positioning to return the output objects you desired. 
 
 To run my solution you should open the terminal window on your UNIX based computer and type the following commands. I will assume you are able to navigate to the location where you downloaded the code I submitted.
